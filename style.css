@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    --primary-color: #000000;
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --border-color: #e5e5e5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.brand img{
+    width: 30px;
+    height: auto;
+}
+/* Centering the image */
+.homePNG {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 80vh; /* Ensures the image doesn't exceed 80% of the viewport height */
+}
+
+/* NAVIGATION STYLES */
+nav {
+    background-color: var(--background-color);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+
+}
+
+.nav-left li, .nav-right a{
+    font-size: 0.8rem;
+}
+
+.nav-links {
+    list-style-type: none;
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 2rem;
+}
+
+.nav-links li a, .nav-right a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.nav-links li a:hover, .nav-right a:hover {
+    opacity: 0.7;
+}
+
+.brand {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.nav-right {
+    gap: 1.5rem;
+}
+
+.search-link, .region-link, .cart-link {
+    font-size: 0.9rem;
+}
+
+/* SHOP DROPDOWN STYLES */
+
+
+.shop-menu {
+    position: relative;
+    
+}
+
+.shop-dropdown {
+    display: none; /* Hide dropdown by default */
+    position: absolute;
+    top: 100%;
+    left: -25%;
+    background-color: var(--background-color);
+    padding: 10px 0;
+    z-index: 10;
+    width: 100%; /* Adjust width based on content */
+    justify-content: left;
+    gap: 1rem;
+    flex-wrap: nowrap; 
+    white-space: nowrap;
+}
+
+.shop-menu:hover .shop-dropdown {
+    display: flex; /* Show dropdown on hover */
+}
+
+.shop-dropdown a {
+    color: var(--text-color);
+    padding: 5px 15px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    
+}
+
+.shop-dropdown a:hover {
+    text-decoration: underline;
+
+}
+
+/* CURRENCY DROPDOWN */
+.currency-dropdown {
+    position: relative;
+}
+
+.currency-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    min-width: 120px;
+    z-index: 10;
+}
+
+.currency-options a {
+    color: var(--text-color);
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+}
+
+.currency-options a:hover {
+    background-color: #f1f1f1;
+}
+
+.currency-dropdown:hover .currency-options {
+    display: block;
+}
+/* Footer Section */
+footer {
+    padding: 15px 2rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    
+}
+
+.footer-content p {
+    margin: 0;
+    font-size: 0.7rem;
+    color: var(--text-color);
+}
+
+.footer-links {
+    list-style-type: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-links li {
+    font-size: 0.7rem;
+}
+
+.footer-links li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.3s ease;
+}
+
+.footer-links li a:hover {
+    opacity: 0.7;
+}
