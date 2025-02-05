@@ -1,0 +1,76 @@
+<app-loading [isLoading]="isLoading"></app-loading>
+
+  
+  <div *ngIf="!isLoading && product" class="product-container">
+    <!-- Image Slider Section -->
+    <div class="image-slider-section">
+      <div class="image-slider">
+        <button class="slider-button prev" (click)="prevImage()">&#10094;</button>
+        <img
+          [src]="'data:image/jpeg;base64,' + currentImage"
+          alt="{{ product.productName }}"
+          class="main-image"
+        />
+        <button class="slider-button next" (click)="nextImage()">&#10095;</button>
+      </div>
+      <div class="thumbnail-container">
+        <img
+          *ngFor="let image of product.images; let i = index"
+          [src]="'data:image/jpeg;base64,' + image"
+          alt="Thumbnail"
+          class="thumbnail"
+          (click)="selectImage(i)"
+          [class.active]="currentIndex === i"
+        />
+      </div>
+    </div>
+  
+    <!-- Product Details Section -->
+    <div class="product-info-section">
+      <h1 class="product-title">{{ product.productName }}</h1>
+      <p class="product-description">{{ product.description }}</p>
+      <p class="product-price">{{ product.price | currency }}</p>
+  
+      <!-- Color Selector -->
+      <div class="form-group">
+        <label>Color:</label>
+        <select [(ngModel)]="selectedColor" class="form-selector">
+          <option *ngFor="let colorId of product.colorIds" [value]="colorId">
+            {{ getColorName(colorId) }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- Size Selector -->
+      <div class="form-group">
+        <label>Size:</label>
+        <select [(ngModel)]="selectedSize" class="form-selector">
+          <option *ngFor="let sizeId of product.sizeIds" [value]="sizeId">
+            {{ getSizeName(sizeId) }}
+          </option>
+        </select>
+      </div>
+  
+      <!-- Categories -->
+      <p class="product-categories">
+        <strong>Categories:</strong>
+        <span *ngFor="let categoryId of product.categoryIds; let last = last">
+          {{ getCategoryName(categoryId) }}{{ last ? '' : ', ' }}
+        </span>
+      </p>
+  
+      <!-- Quantity Selector -->
+      <div class="form-group">
+        <label>Quantity:</label>
+        <input type="number" [(ngModel)]="selectedQuantity" min="1" max="10" class="form-input" />
+      </div>
+  
+      <!-- Add to Cart Button -->
+      <button class="btn-primary">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- Error State -->
+<div *ngIf="!isLoading && !product" class="error-message">
+  <p>Failed to load product details.</p>
+</div>

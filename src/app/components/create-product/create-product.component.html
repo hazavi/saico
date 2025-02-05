@@ -1,0 +1,61 @@
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    <div class="form-group">
+        <label for="images">Images:</label>
+        <input type="file" id="images" (change)="onFileSelected($event)" multiple required class="form-control-file" />
+      </div>
+
+    <div class="form-group">
+      <label for="productName">Product Name:</label>
+      <input type="text" id="productName" formControlName="productName" required class="form-control" />
+      <div *ngIf="productForm.get('productName')?.invalid && productForm.get('productName')?.touched" class="error-message">
+        <small *ngIf="productForm.get('productName')?.errors?.['required']">Product name is required.</small>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description" required class="form-control"></textarea>
+      <div *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched" class="error-message">
+        <small *ngIf="productForm.get('description')?.errors?.['required']">Description is required.</small>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input type="number" id="price" formControlName="price" required class="form-control" />
+      <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="error-message">
+        <small *ngIf="productForm.get('price')?.errors?.['required']">Price is required.</small>
+        <small *ngIf="productForm.get('price')?.errors?.['min']">Price must be greater than or equal to 0.</small>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="colors">Colors:</label>
+      <select id="colors" formControlName="colorIds" multiple class="form-control">
+        <option *ngFor="let color of colorList" [value]="color.colorId">
+          {{ color.colorName }}
+        </option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="sizes">Sizes:</label>
+      <select id="sizes" formControlName="sizeIds" multiple class="form-control">
+        <option *ngFor="let size of sizeList" [value]="size.sizeId">
+          {{ size.sizeName }}
+        </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="categories">Category:</label>
+      <select id="categories" formControlName="categoryIds" multiple class="form-control">
+        <option *ngFor="let c of categoryList" [value]="c.categoryId">
+          {{ c.categoryName }}
+        </option>
+      </select>
+    </div>
+  
+
+  
+    <button type="submit" [disabled]="productForm.invalid" class="btn btn-primary">Create Product</button>
+  </form>
