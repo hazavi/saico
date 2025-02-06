@@ -61,4 +61,3 @@ For more information on using the Angular CLI, including detailed command refere
 
 ## Supabase Authentication
 
-When successfully registered a confirmation email will be sent to the registered email.
