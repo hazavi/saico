@@ -1,0 +1,86 @@
+<div class="register-container">
+    <div class="register-card">
+        <h2 class="register-title">Register</h2>
+        <form (ngSubmit)="register()" class="register-form">
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-wrapper">
+                    <input 
+                        type="email" 
+                        id="email" 
+                        [(ngModel)]="registerData.email" 
+                        name="email" 
+                        placeholder="Enter email"
+                        required 
+                        class="form-input"
+                    />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-wrapper">
+                    <input 
+                        [type]="showPassword ? 'text' : 'password'"
+                        id="password" 
+                        [(ngModel)]="registerData.password" 
+                        name="password" 
+                        placeholder="Enter password"
+                        required 
+                        class="form-input"
+                    />
+                    <button 
+                        type="button" 
+                        class="password-toggle" 
+                        (click)="showPassword = !showPassword"
+                        [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+                    >
+                        <svg 
+                            *ngIf="!showPassword" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            class="icon"
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            stroke-width="2"
+                        >
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg 
+                            *ngIf="showPassword" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            class="icon"
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            stroke-width="2"
+                        >
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="register-button">
+                Create Account
+            </button>
+
+            <div class="form-footer">
+                <p class="login-text">
+                    Already have an account? 
+                    <a routerLink="/login" class="login-link">Sign in</a>
+                </p>
+            </div>
+
+            <div *ngIf="successMessage" class="success-container">
+                <p class="success-text">{{ successMessage }}</p>
+            </div>
+
+            <div *ngIf="errorMessage" class="error-container">
+                <p class="error-text">{{ errorMessage }}</p>
+            </div>
+        </form>
+    </div>
+</div>

@@ -36,7 +36,7 @@ export class ProductListComponent implements OnInit {
 
   // Navigate to the product details page
   viewProduct(id: string, productName: string): void {
-    const formattedName = productName.replace(/\s+/g, '-').toLowerCase(); // Format name for URL
+    const formattedName = productName.replace(/\s+/g, '-').toLowerCase(); 
     this.router.navigate(['/shop/products', id, productName]);
   }
 }

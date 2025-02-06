@@ -5,7 +5,7 @@
     <div class="nav-section">
       <div class="shop-dropdown" (mouseenter)="isShopOpen = true" (mouseleave)="isShopOpen = false">
         <button class="nav-link" [class.active]="isShopOpen">
-          Shop
+          <h3>Shop</h3>
           <span class="nav-link-underline"></span>
         </button>
         <div class="dropdown-menu" [class.active]="isShopOpen">
@@ -50,7 +50,6 @@
     <div class="nav-section logo-section">
       <a href="/" class="logo">
         saico
-        <span class="logo-dot"></span>
       </a>
     </div>
 
@@ -63,12 +62,35 @@
         </svg>
       </button>
       
-      <a href="/account" class="icon-button" aria-label="Account">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-      </a>
+<!-- Account Dropdown -->
+<div class="account-dropdown" *ngIf="isLoggedIn; else loginTemplate" (mouseenter)="isDropdownOpen = true" (mouseleave)="isDropdownOpen = false">
+  <button class="icon-button">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div class="dropdown-menu" [class.active]="isDropdownOpen">
+    <p *ngIf="isAdmin">Hi, Admin!</p>
+    <a href="/settings" class="dropdown-item">Settings</a>
+    <a href="/favorites" class="dropdown-item">Favorites</a>
+    <a href="/admin" *ngIf="isAdmin" class="dropdown-item">Admin</a>
+    <a href="/login" (click)="logout()" class="dropdown-item logout">Logout</a>
+  </div>
+</div>
+
+<!-- Login Button (Shown if not logged in) -->
+<ng-template #loginTemplate>
+  <a href="/login" class="icon-button" aria-label="Account">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+  </a>
+</ng-template>
+
       
       <button class="icon-button cart-button" (click)="toggleCart()" aria-label="Cart">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

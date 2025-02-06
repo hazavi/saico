@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../models/user';
+import { LoginModel } from '../models/loginmodel';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -43,6 +45,16 @@ export class GenericService<Model> {
     return this.http.delete<void>(`${this.url}/${endPoint}/${id}`); // DELETE
   }
   
+  register(data: any): Observable<any> {
+    return this.http.post(`${this.url}/users/register`, data);
+  }
+
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.url}/users/login`, data);
+  }
+  setAdmin(userId: string): Observable<any> {
+    return this.http.post(`${this.url}/users/set-admin/${userId}`, {});
+  }
 }
 
 export class LoadingService {

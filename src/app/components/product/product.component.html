@@ -51,13 +51,6 @@
         </select>
       </div>
   
-      <!-- Categories -->
-      <p class="product-categories">
-        <strong>Categories:</strong>
-        <span *ngFor="let categoryId of product.categoryIds; let last = last">
-          {{ getCategoryName(categoryId) }}{{ last ? '' : ', ' }}
-        </span>
-      </p>
   
       <!-- Quantity Selector -->
       <div class="form-group">

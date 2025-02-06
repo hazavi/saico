@@ -41,12 +41,12 @@ export class ProductComponent {
     // Get the product ID from the route parameters
     this.route.paramMap.subscribe(params => {
       const productId = params.get('id');
-      const movieName = decodeURIComponent(
-        this.route.snapshot.paramMap.get('movieName') || ''
+      const productName = decodeURIComponent(
+        this.route.snapshot.paramMap.get('productName') || ''
       );  
-      if (productId && movieName) {
+      if (productId && productName) {
         this.isLoading = true;
-        this.fetchProduct(productId, movieName);
+        this.fetchProduct(productId, productName);
         this.fetchCategories();
         this.fetchColors();
         this.fetchSizes();

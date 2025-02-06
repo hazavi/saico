@@ -27,7 +27,41 @@ export class AppComponent{
   searchQuery = '';
   isClothingOpen = false;
 
+  isLoggedIn = false;
+  isDropdownOpen = false;
+  isAdmin = false; // Default: Not an admin
+
   constructor() {}
+
+  ngOnInit() {
+    this.checkLoginStatus();
+  }
+  
+  checkLoginStatus() {
+    const userData = localStorage.getItem('user'); // Get user from local storage
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (isLoggedIn && userData) {
+      const user = JSON.parse(userData);
+      this.isLoggedIn = true;
+      this.isAdmin = user.role === 'admin'; // Check if user is an admin
+    }  else {
+      this.isLoggedIn = false;
+      this.isAdmin = false;
+    }
+  }
+  
+
+  logout() {
+    alert("Logged Out.")
+    localStorage.removeItem('user'); // Remove user data
+    localStorage.removeItem('authToken'); 
+    localStorage.removeItem('isLoggedIn');
+
+    this.isLoggedIn = false;
+    this.isAdmin = false;
+    this.isDropdownOpen = false;
+  }
 
   /** Detect scrolling to apply styles */
   @HostListener('window:scroll', [])
@@ -44,8 +78,6 @@ export class AppComponent{
   onMouseLeave(): void {
     this.isShopOpen = false;
   }
-
-
 
   /** Toggles search overlay */
   toggleSearch(): void {
