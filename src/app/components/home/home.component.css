@@ -28,3 +28,7 @@
     height: 100%;
     object-fit: cover; 
   }
+
+  .slide-image:hover{
+    cursor: pointer;
+  }

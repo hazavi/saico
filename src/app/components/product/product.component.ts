@@ -8,14 +8,17 @@ import { Size } from '../../models/size';
 import { Category } from '../../models/category';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../loading/loading.component';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-product',
-  imports: [CommonModule,CommonModule, ReactiveFormsModule, FormsModule, LoadingComponent ],
+  imports: [CommonModule,CommonModule, ReactiveFormsModule, FormsModule, LoadingComponent, BreadcrumbsComponent ],
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent {
+  breadcrumbItems: { label: string; url?: string }[] = [];
+
   product: Product | null = null;
   colorList: Color[] = [];
   sizeList: Size[] = [];
@@ -46,12 +49,15 @@ export class ProductComponent {
       );  
       if (productId && productName) {
         this.isLoading = true;
+
         this.fetchProduct(productId, productName);
         this.fetchCategories();
         this.fetchColors();
         this.fetchSizes();
+        
       }
     });
+    
   }
   fetchProduct(id: string, productName: string): void {
     this.productService.getbyid('products', id).subscribe({
@@ -60,9 +66,16 @@ export class ProductComponent {
         data.sizeIds = JSON.parse(data.sizeIds[0]);
         data.categoryIds = JSON.parse(data.categoryIds[0]);
         this.product = data;
-        this.selectedColor = this.product?.colorIds[0] || ''; // Default to first color
-        this.selectedSize = this.product?.sizeIds[0] || ''; // Default to first size
+        this.selectedColor = this.product?.colorIds[0] || ''; 
+        this.selectedSize = this.product?.sizeIds[0] || ''; 
         this.isLoading = false;
+
+        this.breadcrumbItems = [
+          { label: 'Home', url: '/' },
+          { label: 'Products', url: '/shop/all' },
+          { label: this.product?.productName || 'Product' } 
+        ];
+
       },
       error: (err) => {
         console.error('Error fetching product:', err);

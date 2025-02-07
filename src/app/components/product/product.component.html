@@ -1,3 +1,6 @@
+
+<app-breadcrumbs [items]="breadcrumbItems"></app-breadcrumbs>
+
 <app-loading [isLoading]="isLoading"></app-loading>
 
   
@@ -42,7 +45,6 @@
       (click)="selectedColor = colorId"
       [style.backgroundColor]="getHexCode(colorId)"
     >
-    <span class="sr-only">{{ getColorName(colorId) }}</span>
 
     </button>
   </div>
