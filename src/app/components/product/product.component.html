@@ -29,27 +29,39 @@
     <div class="product-info-section">
       <h1 class="product-title">{{ product.productName }}</h1>
       <p class="product-description">{{ product.description }}</p>
-      <p class="product-price">{{ product.price | currency }}</p>
+      <p class="product-price">{{ product.price| currency }}</p>
   
-      <!-- Color Selector -->
-      <div class="form-group">
-        <label>Color:</label>
-        <select [(ngModel)]="selectedColor" class="form-selector">
-          <option *ngFor="let colorId of product.colorIds" [value]="colorId">
-            {{ getColorName(colorId) }}
-          </option>
-        </select>
+<!-- Color Selector -->
+<div class="form-group">
+  <label>Color:</label>
+  <div class="color-options">
+    <button
+      *ngFor="let colorId of product.colorIds"
+      class="color-option"
+      [class.active]="selectedColor === colorId"
+      (click)="selectedColor = colorId"
+      [style.backgroundColor]="getHexCode(colorId)"
+    >
+    <span class="sr-only">{{ getColorName(colorId) }}</span>
+
+    </button>
+  </div>
+</div>
+
+    <!-- Size Selector -->
+    <div class="form-group">
+      <label>Size:</label>
+      <div class="size-options">
+        <button 
+          *ngFor="let sizeId of product.sizeIds"
+          class="size-option"
+          [class.active]="selectedSize === sizeId"
+          (click)="selectedSize = sizeId"
+        >
+          {{ getSizeName(sizeId) }}
+        </button>
       </div>
-  
-      <!-- Size Selector -->
-      <div class="form-group">
-        <label>Size:</label>
-        <select [(ngModel)]="selectedSize" class="form-selector">
-          <option *ngFor="let sizeId of product.sizeIds" [value]="sizeId">
-            {{ getSizeName(sizeId) }}
-          </option>
-        </select>
-      </div>
+    </div>
   
   
       <!-- Quantity Selector -->

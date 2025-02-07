@@ -24,7 +24,7 @@
   /* Image Container Styling */
   .image-container {
     position: relative;
-    height: 450px; /* Fixed height for consistent appearance */
+    height: 350px; /* Fixed height for consistent appearance */
     overflow: hidden;
   }
   

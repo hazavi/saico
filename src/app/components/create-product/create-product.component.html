@@ -55,7 +55,14 @@
       </select>
     </div>
   
-
+    <div class="form-group">
+      <label for="stock">Stocks:</label>
+      <input type="number" id="stock" formControlName="stock" required class="form-control" />
+      <div *ngIf="productForm.get('stocks')?.invalid && productForm.get('stocks')?.touched" class="error-message">
+        <small *ngIf="productForm.get('stocks')?.errors?.['required']">Stocks is required.</small>
+        <small *ngIf="productForm.get('stocks')?.errors?.['min']">Stocks must be greater than 0.</small>
+      </div>
+    </div>
   
     <button type="submit" [disabled]="productForm.invalid" class="btn btn-primary">Create Product</button>
   </form>

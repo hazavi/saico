@@ -107,7 +107,10 @@ export class ProductComponent {
     const color = this.colorList.find(c => c.colorId === colorId);
     return color?.colorName || 'N/A';
   }
-
+  getHexCode(colorId: string): string {
+    const color = this.colorList.find((c) => c.colorId === colorId);
+    return color ? color.hexCode : '#FFFFFF'; // Default to white if not found
+  }
   getSizeName(sizeId: string): string {
     const size = this.sizeList.find(s => s.sizeId === sizeId);
     return size?.dimensions || 'N/A';

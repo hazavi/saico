@@ -9,5 +9,6 @@ export class Product {
     isFavorite: boolean = false;
     isAvailable: boolean = true;
     quantity: number = 0;
+    stocks: number = 0;
     categoryIds: string[] = []; // Array of category IDs
   }

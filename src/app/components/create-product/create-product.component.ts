@@ -40,6 +40,7 @@ export class CreateProductComponent {
       isFavorite: [false],
       isAvailable: [true],
       quantity: [1, [Validators.required, Validators.min(1)]],
+      stocks: [1, [Validators.required, Validators.min(1)]],
       categoryIds: [[]],
     });
 
@@ -108,6 +109,7 @@ export class CreateProductComponent {
     formData.append('isFavorite', this.productForm.value.isFavorite.toString());
     formData.append('isAvailable', this.productForm.value.isAvailable.toString());
     formData.append('quantity', this.productForm.value.quantity.toString());
+    formData.append('stocks', this.productForm.value.stocks.toString());
     formData.append('categoryIds', JSON.stringify(this.productForm.value.categoryIds));
   
     // Add all selected images to the form data
@@ -119,7 +121,7 @@ export class CreateProductComponent {
     this.productService.create('Products', formData as any).subscribe({
       next: () => {
         alert('Product created successfully!');
-        this.router.navigate(['/products']); // Navigate to the product list
+        this.router.navigate(['/home']); // Navigate to the product list
       },
       error: (err) => {
         console.error('Error creating product:', err);
