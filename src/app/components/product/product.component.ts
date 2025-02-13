@@ -30,6 +30,9 @@ export class ProductComponent {
   selectedSize: string = ''; // Selected size ID
   selectedQuantity: number = 1; // Default quantity
 
+  expandedSection: string | null = null;
+  selectedUnit: 'cm' | 'inches' = 'cm';
+  
   constructor(
     private route: ActivatedRoute,
     private productService: GenericService<Product>,
@@ -54,11 +57,11 @@ export class ProductComponent {
         this.fetchCategories();
         this.fetchColors();
         this.fetchSizes();
-        
       }
     });
     
   }
+  
   fetchProduct(id: string, productName: string): void {
     this.productService.getbyid('products', id).subscribe({
       next: (data) => {
@@ -68,7 +71,7 @@ export class ProductComponent {
         this.product = data;
         this.selectedColor = this.product?.colorIds[0] || ''; 
         this.selectedSize = this.product?.sizeIds[0] || ''; 
-        this.isLoading = false;
+        this.isLoading = false;      
 
         this.breadcrumbItems = [
           { label: 'Home', url: '/' },
@@ -84,6 +87,11 @@ export class ProductComponent {
       }
     });
   }
+
+toggleSection(section: string) {
+  this.expandedSection = this.expandedSection === section ? null : section;
+}
+
   fetchCategories(): void {
     this.categoryService.getAll('Categories').subscribe({
       next: (data) => {
@@ -106,7 +114,7 @@ export class ProductComponent {
   }
 
   fetchSizes(): void {
-    this.sizeService.getAll('Size').subscribe({
+    this.sizeService.getAll('Sizes').subscribe({
       next: (data) => {
         this.sizeList = data;
       },
@@ -128,7 +136,11 @@ export class ProductComponent {
     const size = this.sizeList.find(s => s.sizeId === sizeId);
     return size?.dimensions || 'N/A';
   }
-
+  getSortedSizes(): Size[] {
+    const order = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+    return this.sizeList.sort((a, b) => order.indexOf(a.dimensions) - order.indexOf(b.dimensions));
+  }
+  
   getCategoryName(categoryId: string): string {
     const category = this.categoryList.find(c => c.categoryId === categoryId);
     return category?.categoryName || 'N/A';
@@ -153,5 +165,23 @@ export class ProductComponent {
     if (this.product) {
       this.currentIndex = index;
     }
+  }
+    // Getter for formatted description
+  get formattedDescription(): string[] {
+    if (!this.product || !this.product.description) return [];
+
+    // Split the description by dashes
+    const parts = this.product.description.split('-').map(part => part.trim()).filter(Boolean);
+
+    // Process each part: Add a dash only if it wasn't the first part
+    return parts.map((part, index) => {
+      if (index === 0) {
+        // First part: Do not add a dash
+        return part;
+      } else {
+        // Subsequent parts: Prepend a dash
+        return `- ${part}`;
+      }
+    });
   }
 }

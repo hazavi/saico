@@ -31,12 +31,11 @@
     <!-- Product Details Section -->
     <div class="product-info-section">
       <h1 class="product-title">{{ product.productName }}</h1>
-      <p class="product-description">{{ product.description }}</p>
       <p class="product-price">{{ product.price| currency }}</p>
   
 <!-- Color Selector -->
 <div class="form-group">
-  <label>Color:</label>
+  <label>Color</label>
   <div class="color-options">
     <button
       *ngFor="let colorId of product.colorIds"
@@ -52,19 +51,19 @@
 
     <!-- Size Selector -->
     <div class="form-group">
-      <label>Size:</label>
+      <label>Size</label>
       <div class="size-options">
         <button 
-          *ngFor="let sizeId of product.sizeIds"
+          *ngFor="let size of getSortedSizes()"
           class="size-option"
-          [class.active]="selectedSize === sizeId"
-          (click)="selectedSize = sizeId"
+          [class.active]="selectedSize === size.sizeId"
+          (click)="selectedSize = size.sizeId"
         >
-          {{ getSizeName(sizeId) }}
+          {{ size.dimensions }}
         </button>
       </div>
     </div>
-  
+    
   
       <!-- Quantity Selector -->
       <div class="form-group">
@@ -72,8 +71,166 @@
         <input type="number" [(ngModel)]="selectedQuantity" min="1" max="10" class="form-input" />
       </div>
   
+
+  <!-- Product Details Section -->
+  <div class="collapsible-section">
+    <button class="section-header" (click)="toggleSection('details')">
+      <h5>DETAILS</h5>
+      <span class="icon" [class.expanded]="expandedSection === 'details'"><i class="fa-solid fa-caret-down fa-lg"></i></span>
+    </button>
+    <div class="section-content" [class.expanded]="expandedSection === 'details'">
+      <ul>
+        <li *ngFor="let part of formattedDescription">
+          {{ part }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Size Guide Section -->
+  <div class="collapsible-section">
+    <button class="section-header" (click)="toggleSection('size')">
+      <h5>SIZE GUIDE</h5>
+      <span class="icon" [class.expanded]="expandedSection === 'size'">
+        <i class="fa-solid fa-caret-down fa-lg"></i>
+      </span>
+    </button>
+    <div class="section-content" [class.expanded]="expandedSection === 'size'">
+      <div class="size-guide-container">
+        <div class="size-unit-tabs">
+          <button 
+            [class.active]="selectedUnit === 'cm'"
+            (click)="selectedUnit = 'cm'">
+            CM
+          </button>
+          <button 
+            [class.active]="selectedUnit === 'inches'"
+            (click)="selectedUnit = 'inches'">
+            INCHES
+          </button>
+        </div>
+  
+        <!-- CM Table -->
+        <table class="size-table" *ngIf="selectedUnit === 'cm'">
+          <thead>
+            <tr>
+              <th>SIZE</th>
+              <th>S</th>
+              <th>M</th>
+              <th>L</th>
+              <th>XL</th>
+              <th>XXL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>CHEST</th>
+              <td>23</td>
+              <td>24</td>
+              <td>25</td>
+              <td>26</td>
+              <td>27</td>
+            </tr>
+            <tr>
+              <th>FRONT LENGTH</th>
+              <td>24.3</td>
+              <td>25</td>
+              <td>26.3</td>
+              <td>27.2</td>
+              <td>28.3</td>
+            </tr>
+            <tr>
+              <th>SLEEVE LENGTH</th>
+              <td>24.5</td>
+              <td>25</td>
+              <td>26.5</td>
+              <td>27.5</td>
+              <td>28.5</td>
+            </tr>
+            <tr>
+              <th>SHOULDER WIDTH</th>
+              <td>18</td>
+              <td>19</td>
+              <td>20</td>
+              <td>21</td>
+              <td>22</td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Inches Table -->
+        <table class="size-table" *ngIf="selectedUnit === 'inches'">
+          <thead>
+            <tr>
+              <th>SIZE</th>
+              <th>S</th>
+              <th>M</th>
+              <th>L</th>
+              <th>XL</th>
+              <th>XXL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>CHEST</th>
+              <td>9.1</td>
+              <td>9.4</td>
+              <td>9.8</td>
+              <td>10.2</td>
+              <td>10.6</td>
+            </tr>
+            <tr>
+              <th>FRONT LENGTH</th>
+              <td>9.6</td>
+              <td>9.8</td>
+              <td>10.4</td>
+              <td>10.7</td>
+              <td>11.1</td>
+            </tr>
+            <tr>
+              <th>SLEEVE LENGTH</th>
+              <td>9.6</td>
+              <td>9.8</td>
+              <td>10.4</td>
+              <td>10.8</td>
+              <td>11.2</td>
+            </tr>
+            <tr>
+              <th>SHOULDER WIDTH</th>
+              <td>7.1</td>
+              <td>7.5</td>
+              <td>7.9</td>
+              <td>8.3</td>
+              <td>8.7</td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <img src="./imgs/size/size-guide.jpg" alt="Size Guide Reference">
+      </div>
+    </div>
+  </div>
+
+  <!-- Shipping & Returns Section -->
+  <div class="collapsible-section">
+    <button class="section-header" (click)="toggleSection('shipping')">
+      <h5>SHIPPING & RETURNS</h5>
+      <span class="icon" [class.expanded]="expandedSection === 'shipping'"><i class="fa-solid fa-caret-down fa-lg"></i></span>
+    </button>
+    <div class="section-content" [class.expanded]="expandedSection === 'shipping'">
+        <ul>
+            <li>DPD €12 (3-5 business days)</li>
+            <li>Returns can be made within 14 days of delivery. Exclusions apply.</li>
+        </ul>
+    </div>
+  </div>
+
       <!-- Add to Cart Button -->
-      <button class="btn-primary">Add to Cart</button>
+      <div class="buy-buttons">
+        <button class="add-to-cart">ADD TO BAG</button>
+        <button class="checkout">CHECKOUT</button>
+      </div>
+
     </div>
   </div>
 

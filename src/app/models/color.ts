@@ -1,5 +1,5 @@
 export class Color{
-    colorId?: string;
+    colorId: string = '';
     colorName: string  = '';
     hexCode: string  = '';
 }

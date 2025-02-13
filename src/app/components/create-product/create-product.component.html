@@ -37,7 +37,7 @@
         </option>
       </select>
     </div>
-  
+    
     <div class="form-group">
       <label for="sizes">Sizes:</label>
       <select id="sizes" formControlName="sizeIds" multiple class="form-control">
@@ -46,18 +46,19 @@
         </option>
       </select>
     </div>
+    
     <div class="form-group">
       <label for="categories">Category:</label>
       <select id="categories" formControlName="categoryIds" multiple class="form-control">
-        <option *ngFor="let c of categoryList" [value]="c.categoryId">
-          {{ c.categoryName }}
+        <option *ngFor="let category of categoryList" [value]="category.categoryId">
+          {{ category.categoryName }}
         </option>
       </select>
     </div>
   
     <div class="form-group">
-      <label for="stock">Stocks:</label>
-      <input type="number" id="stock" formControlName="stock" required class="form-control" />
+      <label for="stocks">Stocks:</label>
+      <input type="number" id="stocks" formControlName="stocks" required class="form-control" />
       <div *ngIf="productForm.get('stocks')?.invalid && productForm.get('stocks')?.touched" class="error-message">
         <small *ngIf="productForm.get('stocks')?.errors?.['required']">Stocks is required.</small>
         <small *ngIf="productForm.get('stocks')?.errors?.['min']">Stocks must be greater than 0.</small>

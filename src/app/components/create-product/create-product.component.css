@@ -3,7 +3,8 @@
   margin: 2rem auto;
   padding: 3rem;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   .form-group {
     margin-bottom: 2rem;
@@ -23,10 +24,11 @@
 
     .form-control {
       width: 100%;
-      padding: 0.7rem ;
+      padding: 0.7rem;
       font-size: 1rem;
       line-height: 1.5;
       color: #1f2937;
+      background-color: white;
       border: 2px solid #e5e7eb;
       border-radius: 8px;
       transition: all 0.2s ease-in-out;
@@ -87,19 +89,34 @@
       height: auto;
       min-height: 120px;
       padding: 0.5rem;
+      background-color: white;
 
       option {
-        padding: 0.5rem;
+        padding: 0.75rem;
         margin: 0.25rem 0;
         border-radius: 4px;
-
+        color: #1f2937;
+        font-size: 0.95rem;
+        
         &:checked {
           background-color: #10b981;
           color: white;
         }
 
-        &:hover {
+        &:hover:not(:checked) {
           background-color: #d1fae5;
+          color: #1f2937;
+        }
+      }
+
+      @-moz-document url-prefix() {
+        option {
+          background-color: white;
+          
+          &:checked {
+            box-shadow: 0 0 0 3px #10b981;
+            color: #1f2937;
+          }
         }
       }
     }

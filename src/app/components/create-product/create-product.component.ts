@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,7 +29,9 @@ export class CreateProductComponent {
     private categoryService: GenericService<Category>,
     private colorService: GenericService<Color>,
     private sizeService: GenericService<Size>,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
+
   ) {
     this.productForm = this.fb.group({
       productName: ['', Validators.required],
@@ -42,7 +44,7 @@ export class CreateProductComponent {
       quantity: [1, [Validators.required, Validators.min(1)]],
       stocks: [1, [Validators.required, Validators.min(1)]],
       categoryIds: [[]],
-    });
+  });
 
   }
 
@@ -53,39 +55,40 @@ export class CreateProductComponent {
   }
 
   fetchCategories(): void {
-    this.categoryService.getAll('categories').subscribe({
-      next: (data) => {
-        this.categoryList = data; 
-      },
-      error: (err) => {
-        console.error('Error fetching categories:', err);
-        alert('Failed to load categories.');
-      },
+    this.categoryService.getAll('Categories').subscribe({
+        next: (data) => {
+            this.categoryList = data;
+        },
+        error: (err) => {
+            console.error('Error fetching categories:', err);
+            alert('Failed to load categories.');
+        }
     });
-  }
-  fetchColors(): void {
-    this.colorService.getAll('Colors').subscribe({
-      next: (data) => {
-        this.colorList = data;
-      },
-      error: (err) => {
-        console.error('Error fetching colors:', err);
-        alert('Failed to load colors.');
-      }
-    });
-  }
+}
 
-  fetchSizes(): void {
-    this.sizeService.getAll('Size').subscribe({
-      next: (data) => {
-        this.sizeList = data;
-      },
-      error: (err) => {
-        console.error('Error fetching sizes:', err);
-        alert('Failed to load sizes.');
-      }
+fetchColors(): void {
+    this.colorService.getAll('Colors').subscribe({
+        next: (data) => {
+            this.colorList = data;
+        },
+        error: (err) => {
+            console.error('Error fetching colors:', err);
+            alert('Failed to load colors.');
+        }
     });
-  }
+}
+
+fetchSizes(): void {
+    this.sizeService.getAll('Sizes').subscribe({
+        next: (data) => {
+            this.sizeList = data;
+        },
+        error: (err) => {
+            console.error('Error fetching sizes:', err);
+            alert('Failed to load sizes.');
+        }
+    });
+}
   onFileSelected(event: any): void {
     this.selectedFiles = event.target.files;
   }
@@ -104,14 +107,13 @@ export class CreateProductComponent {
     formData.append('productName', this.productForm.value.productName);
     formData.append('description', this.productForm.value.description);
     formData.append('price', this.productForm.value.price.toString());
-    formData.append('colorIds', JSON.stringify(this.productForm.value.colorIds)); 
-    formData.append('sizeIds', JSON.stringify(this.productForm.value.sizeIds)); 
     formData.append('isFavorite', this.productForm.value.isFavorite.toString());
     formData.append('isAvailable', this.productForm.value.isAvailable.toString());
     formData.append('quantity', this.productForm.value.quantity.toString());
     formData.append('stocks', this.productForm.value.stocks.toString());
-    formData.append('categoryIds', JSON.stringify(this.productForm.value.categoryIds));
-  
+    formData.append('colorIds', JSON.stringify(this.productForm.value.colorIds || [])); 
+    formData.append('sizeIds', JSON.stringify(this.productForm.value.sizeIds || [])); 
+    formData.append('categoryIds', JSON.stringify(this.productForm.value.categoryIds || []));   
     // Add all selected images to the form data
     for (let i = 0; i < this.selectedFiles.length; i++) {
       formData.append('ImageFiles', this.selectedFiles[i], this.selectedFiles[i].name);

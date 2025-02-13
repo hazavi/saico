@@ -1,5 +1,5 @@
 export class Size{
-    sizeId?: string;
+    sizeId: string = '';
     sizeName: string = '';
     dimensions: string = '';
 }

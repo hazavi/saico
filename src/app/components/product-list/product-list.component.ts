@@ -21,19 +21,20 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Fetch all products from the backend
-    this.productService.getAll('products').subscribe({
-      next: (data) => {
-        this.isLoading = true;
-        this.productList = data;
-      },
-      error: (err) => {
-        console.error('Error fetching products:', err);
-        alert('Failed to load products.');
-      }
+    this.productService.getAll('Products').subscribe({
+        next: (data) => {
+            this.productList = data.map(product => ({
+                ...product,
+                images: product.images || [] // Handle null/undefined images
+            }));
+            this.isLoading = false;
+        },
+        error: (err) => {
+            console.error('Error fetching products:', err);
+            alert('Failed to load products.');
+        }
     });
-  }
-
+}
   // Navigate to the product details page
   viewProduct(id: string, productName: string): void {
     const formattedName = productName.replace(/\s+/g, '-').toLowerCase(); 

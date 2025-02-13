@@ -6,7 +6,7 @@ import { LoginModel } from '../models/loginmodel';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'content-type': 'application/json',
+    'Content-type': 'application/json',
   }),
 };
 @Injectable({
