@@ -1,20 +1,29 @@
-<div *ngIf="productList.length === 0" class="loading">
-    <app-loading [isLoading]="isLoading"></app-loading>
-  </div>
-  
-  <div *ngIf="productList.length > 0" class="product-grid">
-    <div class="product-card" *ngFor="let p of productList" (click)="viewProduct(p.productId, p.productName)">
-      <div class="image-container">
-        <img
-          *ngIf="p.images && p.images.length > 0"
-          [src]="'data:image/jpeg;base64,' + p.images[0]"
-          alt="{{ p.productName }} Image"
-          class="product-image"
-        />
-      </div>
-      <div class="card-content">
-        <h3 class="product-title">{{ p.productName }}</h3>
-        <p class="product-price">{{ p.price | currency }}</p>
-      </div>
+<div *ngIf="filteredProducts.length === 0 && !isLoading" class="no-products">
+  <p>No products found in this category.</p>
+</div>
+
+<!-- Display category title -->
+<h2 class="category-title">{{ categoryTitle }}</h2>
+
+<!-- Show loading component when products are still loading -->
+<div *ngIf="isLoading" class="loading">
+  <app-loading [isLoading]="isLoading"></app-loading>
+</div>
+
+<!-- Product grid -->
+<div *ngIf="filteredProducts.length > 0" class="product-grid">
+  <div class="product-card" *ngFor="let p of filteredProducts" (click)="viewProduct(p.productId, p.productName)">
+    <div class="image-container">
+      <img
+        *ngIf="p.images && p.images.length > 0"
+        [src]="'data:image/jpeg;base64,' + p.images[0]"
+        alt="{{ p.productName }} Image"
+        class="product-image"
+      />
+    </div>
+    <div class="card-content">
+      <h3 class="product-title">{{ p.productName }}</h3>
+      <p class="product-price">{{ p.price | currency }}</p>
     </div>
   </div>
+</div>

@@ -23,6 +23,7 @@ export const routes: Routes = [
         path: 'shop',
         children: [
             { path: 'all', component: ProductListComponent }, //  All Product Pages
+            { path: ':category', component: ProductListComponent }, // Filter by category
             { path: 'products/:id/:productName', component: ProductComponent }, //  Product Pages
 
         //   { path: 'create', component: CreateUserComponent }, // Create user

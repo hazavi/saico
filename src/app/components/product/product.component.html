@@ -49,20 +49,21 @@
   </div>
 </div>
 
-    <!-- Size Selector -->
-    <div class="form-group">
-      <label>Size</label>
-      <div class="size-options">
-        <button 
-          *ngFor="let size of getSortedSizes()"
-          class="size-option"
-          [class.active]="selectedSize === size.sizeId"
-          (click)="selectedSize = size.sizeId"
-        >
-          {{ size.dimensions }}
-        </button>
-      </div>
+  <!-- Size Selector -->
+  <div class="form-group">
+    <label>Size</label>
+    <div class="size-options">
+      <button 
+        *ngFor="let size of getSortedSizes()"
+        class="size-option"
+        [class.active]="selectedSize === size.sizeId"
+        (click)="selectedSize = size.sizeId"
+      >
+        {{ size.dimensions }}
+      </button>
     </div>
+  </div>
+
     
   
       <!-- Quantity Selector -->

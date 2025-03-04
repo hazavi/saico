@@ -65,20 +65,20 @@ export class ProductComponent {
   fetchProduct(id: string, productName: string): void {
     this.productService.getbyid('products', id).subscribe({
       next: (data) => {
-        data.colorIds = JSON.parse(data.colorIds[0]);
-        data.sizeIds = JSON.parse(data.sizeIds[0]);
-        data.categoryIds = JSON.parse(data.categoryIds[0]);
+        data.colorIds = JSON.parse(data.colorIds[0] || '[]'); 
+        data.sizeIds = JSON.parse(data.sizeIds[0] || '[]'); 
+        data.categoryIds = JSON.parse(data.categoryIds[0] || '[]');
+  
         this.product = data;
         this.selectedColor = this.product?.colorIds[0] || ''; 
         this.selectedSize = this.product?.sizeIds[0] || ''; 
         this.isLoading = false;      
-
+  
         this.breadcrumbItems = [
           { label: 'Home', url: '/' },
           { label: 'Products', url: '/shop/all' },
           { label: this.product?.productName || 'Product' } 
         ];
-
       },
       error: (err) => {
         console.error('Error fetching product:', err);
@@ -87,6 +87,7 @@ export class ProductComponent {
       }
     });
   }
+  
 
 toggleSection(section: string) {
   this.expandedSection = this.expandedSection === section ? null : section;
@@ -134,12 +135,23 @@ toggleSection(section: string) {
   }
   getSizeName(sizeId: string): string {
     const size = this.sizeList.find(s => s.sizeId === sizeId);
-    return size?.dimensions || 'N/A';
+    return size ? size.dimensions : 'N/A';
   }
+  
   getSortedSizes(): Size[] {
+    if (!this.product || !this.product.sizeIds) {
+      return [];
+    }
+    // Filter only sizes that match the product's sizeIds
+    const filteredSizes = this.sizeList.filter(size => this.product!.sizeIds.includes(size.sizeId));
+  
+    // Define sorting order
     const order = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-    return this.sizeList.sort((a, b) => order.indexOf(a.dimensions) - order.indexOf(b.dimensions));
+  
+    // Sort the sizes based on the predefined order
+    return filteredSizes.sort((a, b) => order.indexOf(a.dimensions) - order.indexOf(b.dimensions));
   }
+  
   
   getCategoryName(categoryId: string): string {
     const category = this.categoryList.find(c => c.categoryId === categoryId);
