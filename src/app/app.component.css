@@ -182,7 +182,7 @@
     top: 100%;
     left: 0;
     background: var(--background-color);
-    min-width: 480px; /* Adjust width to accommodate both sections */
+    min-width: 300px; /* Adjust width to accommodate both sections */
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);

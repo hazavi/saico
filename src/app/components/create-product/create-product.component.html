@@ -42,7 +42,7 @@
       <label for="sizes">Sizes:</label>
       <select id="sizes" formControlName="sizeIds" multiple class="form-control">
         <option *ngFor="let size of sizeList" [value]="size.sizeId">
-          {{ size.sizeName }}
+          {{ size.dimensions }}
         </option>
       </select>
     </div>
