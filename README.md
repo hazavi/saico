@@ -6,7 +6,7 @@ Saico is a webshop application built with **Angular** for the frontend and **Sup
 - **Frontend:** Angular  
 - **Authentication:** Supabase  
 - **Backend:** [saicoAPI](https://github.com/hazavi/saicoAPI)  
-- **Database:** Azure Cosmos DB for MongoDB  
+- **Database:** Azure SQL Database
 - **Deployment:** Vercel  
 
 ## **Features**  
