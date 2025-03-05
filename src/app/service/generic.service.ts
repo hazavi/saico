@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class GenericService<Model> {
-  private readonly url: string = 'https://saico-api-bgeqbtgth7dfd2h2.northeurope-01.azurewebsites.net/api';
+  private readonly url: string = 'https://saicoapi.azurewebsites.net/api';
 
   constructor(private http: HttpClient) {}
 

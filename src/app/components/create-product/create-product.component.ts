@@ -102,7 +102,12 @@ fetchSizes(): void {
       }
       return;
     }
-  
+   // Ensure selectedCurrency is available (default to EUR if not set)
+   const selectedCurrency = localStorage.getItem('selectedCurrency') || 'EUR';
+
+   // Convert price based on selected currency
+   const convertedPrice = this.convertPriceToEUR(this.productForm.value.price, selectedCurrency);
+ 
     const formData = new FormData();
     formData.append('productName', this.productForm.value.productName);
     formData.append('description', this.productForm.value.description);
@@ -130,5 +135,22 @@ fetchSizes(): void {
         alert('Failed to create product.');
       },
     });
+    
   }
+  // Function to convert price to EUR
+  convertPriceToEUR(price: number, currency: string): number {
+    const exchangeRates: { [key: string]: number } = {
+      USD: 1.0,    // 1 USD = 1 EUR
+      EUR: 0.94,   // 1 EUR = 0.94 EUR (same as base)
+      DKK: 6.89,   // 1 DKK = 6.89 EUR
+      JPY: 150.75, // 1 JPY = 150.75 EUR
+      CAD: 1.35,   // 1 CAD = 1.35 EUR
+      PHP: 56.00,  // 1 PHP = 56 EUR
+      CHF: 0.91,   // 1 CHF = 0.91 EUR
+    };
+
+    // Convert the price to EUR based on the selected currency
+    return price * (exchangeRates[currency] || 1); // Default to EUR if currency is not found
+  }
+
 }

@@ -4,10 +4,12 @@ import { Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingComponent } from '../loading/loading.component';
+import { CurrencyService } from '../../service/currency.service';
+import { Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
-  imports: [CommonModule, LoadingComponent],
+  imports: [CommonModule, LoadingComponent ],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
@@ -18,13 +20,24 @@ export class ProductListComponent implements OnInit {
   categoryTitle: string = 'All Products';
   currentCategoryId: string | null = null;
   categoryMap: { [key: string]: string } = {}; // Store category ID -> Name mapping
+  selectedCurrency$: Observable<string>;
+
 
   constructor(
     private productService: GenericService<Product>,
-    private categoryService: GenericService<any>, // Use correct type for categories
+    private categoryService: GenericService<any>,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private currencyService: CurrencyService
+    ) {
+      this.selectedCurrency$ = this.currencyService.selectedCurrency$.pipe(
+        startWith('EUR') // Ensure it starts with a default currency
+      );
+          
+    }
+    getConvertedPrice(price: number, currency: string): number {
+      return this.currencyService.convertPrice(price, currency);
+    }
 
   ngOnInit(): void {
     this.loadCategories();

@@ -197,6 +197,29 @@
     }
 }
 
+.currency-dropdown {
+  position: relative;
+  display: inline-block;
+
+  .currency-select {
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border 0.2s ease;
+
+    &:hover {
+      border: none;
+    }
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+  }
+}
 .dropdown-content {
     display: flex; /* Use grid to place category and subcategory side by side */
     gap: 2rem; /* Add space between category and subcategory */

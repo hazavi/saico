@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GenericService } from '../../service/generic.service';
 import { Product } from '../../models/product';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Color } from '../../models/color';
 import { Size } from '../../models/size';
 import { Category } from '../../models/category';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../loading/loading.component';
 import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { CurrencyService } from '../../service/currency.service';
+import { Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -32,17 +34,26 @@ export class ProductComponent {
 
   expandedSection: string | null = null;
   selectedUnit: 'cm' | 'inches' = 'cm';
-  
+  selectedCurrency$: Observable<string>;
+
   constructor(
     private route: ActivatedRoute,
     private productService: GenericService<Product>,
     private colorService: GenericService<Color>,
     private sizeService: GenericService<Size>,
     private categoryService: GenericService<Category>,
-
     private router: Router,
-  ) {}
-
+    private currencyService: CurrencyService
+  ) {
+    this.selectedCurrency$ = this.currencyService.selectedCurrency$.pipe(
+      startWith('EUR') // Ensure it starts with a default currency
+    );
+        
+    }
+    
+    getConvertedPrice(price: number, currency: string): number {
+      return this.currencyService.convertPrice(price, currency);
+    }
   ngOnInit(): void {
     // Get the product ID from the route parameters
     this.route.paramMap.subscribe(params => {
@@ -59,9 +70,10 @@ export class ProductComponent {
         this.fetchSizes();
       }
     });
-    
+
   }
-  
+
+
   fetchProduct(id: string, productName: string): void {
     this.productService.getbyid('products', id).subscribe({
       next: (data) => {

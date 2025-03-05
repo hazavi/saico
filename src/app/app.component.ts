@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef, HostListener, OnInit, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
+import { CurrencyService } from './service/currency.service';
 
 interface SearchSuggestion {
   id: string;
@@ -13,7 +14,7 @@ interface SearchSuggestion {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -30,8 +31,25 @@ export class AppComponent{
   isLoggedIn = false;
   isDropdownOpen = false;
   isAdmin = false; // Default: Not an admin
+  selectedCurrency: string = 'DKK';
+  currencies = [
+    { code: 'EUR', symbol: '€' },
+    { code: 'DKK', symbol: 'kr' },
+    { code: 'USD', symbol: '$' },
+    { code: 'JPY', symbol: '¥' },
+    { code: 'CAD', symbol: 'C$' },
+    { code: 'PHP', symbol: '₱' },
+    { code: 'CHF', symbol: 'CHF' },
+  ];
 
-  constructor() {}
+  constructor(
+    private currencyService: CurrencyService
+  ) {}
+
+  onCurrencyChange(event: Event) {
+    const currency = (event.target as HTMLSelectElement).value;
+    this.currencyService.setCurrency(currency);
+  }
 
   ngOnInit() {
     this.checkLoginStatus();

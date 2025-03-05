@@ -31,7 +31,9 @@
     <!-- Product Details Section -->
     <div class="product-info-section">
       <h1 class="product-title">{{ product.productName }}</h1>
-      <p class="product-price">{{ product.price| currency }}</p>
+      <p class="product-price">
+        {{ getConvertedPrice(product.price, (selectedCurrency$ | async) || 'EUR') | currency:((selectedCurrency$ | async) || 'EUR'):'symbol':'1.0-0' }}
+      </p>
   
 <!-- Color Selector -->
 <div class="form-group">

@@ -23,7 +23,10 @@
     </div>
     <div class="card-content">
       <h3 class="product-title">{{ p.productName }}</h3>
-      <p class="product-price">{{ p.price | currency }}</p>
+      <p class="product-price">
+        {{ getConvertedPrice(p.price, (selectedCurrency$ | async) || 'EUR') | currency:((selectedCurrency$ | async) || 'EUR'):'symbol':'1.0-0' }}
+      </p>
+       
     </div>
   </div>
 </div>
