@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { LoginModel } from '../models/loginmodel';
+import { Product } from '../models/product';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -48,6 +49,12 @@ export class GenericService<Model> {
   register(data: any): Observable<any> {
     return this.http.post(`${this.url}/users/register`, data);
   }
+
+  // Get Products by Category
+  getProductsByCategory(categoryId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/products/category/${categoryId}`); // GET
+  }
+
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.url}/users/login`, data);

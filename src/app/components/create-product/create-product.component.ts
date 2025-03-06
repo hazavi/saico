@@ -107,25 +107,29 @@ fetchSizes(): void {
 
    // Convert price based on selected currency
    const convertedPrice = this.convertPriceToEUR(this.productForm.value.price, selectedCurrency);
- 
+
+
+    
     const formData = new FormData();
     formData.append('productName', this.productForm.value.productName);
     formData.append('description', this.productForm.value.description);
     formData.append('price', this.productForm.value.price.toString());
     formData.append('isFavorite', this.productForm.value.isFavorite.toString());
     formData.append('isAvailable', this.productForm.value.isAvailable.toString());
-    formData.append('quantity', this.productForm.value.quantity.toString());
     formData.append('stocks', this.productForm.value.stocks.toString());
     formData.append('colorIds', JSON.stringify(this.productForm.value.colorIds || [])); 
     formData.append('sizeIds', JSON.stringify(this.productForm.value.sizeIds || [])); 
     formData.append('categoryIds', JSON.stringify(this.productForm.value.categoryIds || []));   
+
+
+    
     // Add all selected images to the form data
     for (let i = 0; i < this.selectedFiles.length; i++) {
       formData.append('ImageFiles', this.selectedFiles[i], this.selectedFiles[i].name);
     }
   
     // Use GenericService.create to send the form data to the backend
-    this.productService.create('Products', formData as any).subscribe({
+    this.productService.create('products', formData as any).subscribe({
       next: () => {
         alert('Product created successfully!');
         this.router.navigate(['/home']); // Navigate to the product list

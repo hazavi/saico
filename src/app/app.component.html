@@ -21,15 +21,19 @@
               <div class="subcategory-section">
                 <div class="subcategory-links">
                   <h3>Clothing</h3>
-                  <a href="/shop/all" class="hover-link" (click)="closeDropdown($event)">All</a>
-                  <a href="/shop/tops" class="hover-link" (click)="closeDropdown($event)">Tops</a>
-                  <a href="/shop/t-shirts" class="hover-link" (click)="closeDropdown($event)">T-Shirts</a>
-                  <a href="/shop/outerwear" class="hover-link" (click)="closeDropdown($event)">Outerwear</a>
-                  <a href="/shop/jackets-coats" class="hover-link" (click)="closeDropdown($event)">Jackets & Coats</a>
-                  <a href="/shop/trousers" class="hover-link" (click)="closeDropdown($event)">Trousers</a>
-                  <a href="/shop/jeans" class="hover-link" (click)="closeDropdown($event)">Jeans</a>
-                  <a href="/shop/shorts" class="hover-link" (click)="closeDropdown($event)">Shorts</a>
-                  <a href="/shop/accessories" class="hover-link" (click)="closeDropdown($event)">Accessories</a>                  
+                  <!-- Link for "All Products" -->
+                  <a [routerLink]="['/shop', 'all']" class="hover-link" (click)="closeDropdown($event)">All</a>
+                
+                  <!-- Dynamically Generate Links for Each Category -->
+                  <ng-container *ngFor="let category of categoryList">
+                    <a
+                      [routerLink]="['/shop', category.categoryName.toLowerCase()]"
+                      class="hover-link"
+                      (click)="closeDropdown($event)"
+                    >
+                      {{ category.categoryName }}
+                    </a>
+                  </ng-container>
                 </div>
               </div>
             </div>

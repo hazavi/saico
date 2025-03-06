@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild, ElementRef, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 import { CurrencyService } from './service/currency.service';
+import { GenericService } from './service/generic.service';
+import { Category } from './models/category';
 
 interface SearchSuggestion {
   id: string;
@@ -14,7 +16,7 @@ interface SearchSuggestion {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule],
+  imports: [RouterOutlet, CommonModule, FormsModule, RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -42,8 +44,11 @@ export class AppComponent{
     { code: 'CHF', symbol: 'CHF' },
   ];
 
+  categoryList: Category[] = []; // Declare and initialize categoryList
+
   constructor(
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private categoryService: GenericService<Category>
   ) {}
 
   onCurrencyChange(event: Event) {
@@ -53,6 +58,7 @@ export class AppComponent{
 
   ngOnInit() {
     this.checkLoginStatus();
+    this.loadCategories();
   }
   
   checkLoginStatus() {
@@ -79,6 +85,19 @@ export class AppComponent{
     this.isLoggedIn = false;
     this.isAdmin = false;
     this.isDropdownOpen = false;
+  }
+
+  loadCategories(): void {
+    this.categoryService.getAll('Categories').subscribe({
+      next: (categories) => {
+        this.categoryList = categories; // Populate categoryList
+        console.log('Fetched Categories:', this.categoryList);
+      },
+      error: (err) => {
+        console.error('Error fetching categories:', err);
+        alert('Failed to load categories.');
+      },
+    });
   }
 
   /** Detect scrolling to apply styles */
