@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { LoginModel } from '../models/loginmodel';
 import { Product } from '../models/product';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,7 +15,7 @@ const httpOptions = {
   providedIn: 'root',
 })
 export class GenericService<Model> {
-  private readonly url: string = 'https://saicoapi.azurewebsites.net/api';
+  private readonly url: string = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
