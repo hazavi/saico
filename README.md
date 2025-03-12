@@ -1,4 +1,4 @@
-# **Saico**  
+# **saico**  
 
 Saico is a webshop application built with **Angular** for the frontend and **Supabase** for authentication. It uses **Azure Cosmos DB for MongoDB** as its database and is deployed for free on **Vercel**.  
 
