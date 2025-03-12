@@ -55,7 +55,12 @@ export class GenericService<Model> {
   getProductsByCategory(categoryId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.url}/products/category/${categoryId}`); // GET
   }
-
+  
+    // Search Products by term
+    search(endPoint: string, term: string): Observable<Model[]> {
+      const params = { term }; // Query parameters
+      return this.http.get<Model[]>(`${this.url}/${endPoint}`, { params });
+    }
 
   login(data: any): Observable<any> {
     return this.http.post(`${this.url}/users/login`, data);

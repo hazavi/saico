@@ -110,37 +110,50 @@
     </div>
   </div>
 
-  <!-- Search Overlay -->
-  <div class="search-overlay" [class.active]="isSearchOpen">
-    <div class="search-container">
-      <div class="search-header">
-        <span class="search-title">Search</span>
-        <button class="close-button" (click)="toggleSearch()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
+<!-- Search Overlay -->
+<div class="search-overlay" [class.active]="isSearchOpen">
+  <div class="search-container">
+    <div class="search-header">
+      <span class="search-title">Search</span>
+      <button class="close-button" (click)="toggleSearch()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="search-form">
+      <input
+        type="text"
+        placeholder="What are you looking for?"
+        class="search-input"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput($event)"
+      />
+      <div class="search-results" *ngIf="searchQuery && searchResults.length > 0">
+        <ul>
+          <li *ngFor="let product of searchResults">
+            <a [routerLink]="['/product', product.productId]">
+              <img
+                *ngIf="product.images && product.images.length > 0"
+                [src]="'data:image/jpeg;base64,' + product.images[0]"
+                alt="{{ product.productName }} Image"
+                class="result-image"
+              />
+              <span>{{ product.productName }}</span>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="search-form">
-        <input 
-          type="text" 
-          placeholder="What are you looking for?" 
-          class="search-input" 
-          #searchInput
-          (input)="onSearchInput($event)"
-        >
-        <div class="search-suggestions" *ngIf="searchQuery">
-          <div class="suggestion-group">
-            <h4>Popular Searches</h4>
-            <a href="/shop/all" class="suggestion-item">New Arrivals</a>
-            <a href="#" class="suggestion-item">Best Sellers</a>
-            <a href="#" class="suggestion-item">Sale Items</a>
-          </div>
-        </div>
+      <div class="no-results" *ngIf="searchQuery && searchResults.length === 0 && !isLoading">
+        No results found.
       </div>
+      <div class="loading" *ngIf="isLoading">Loading...</div>
     </div>
   </div>
+</div>
+
+
 </nav>
 
 <!-- Main Content Wrapper -->

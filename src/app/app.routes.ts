@@ -3,9 +3,9 @@ import { CreateProductComponent } from './components/create-product/create-produ
 import { ProductComponent } from './components/product/product.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { AdminComponent } from './components/admin/admin.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { AdminComponent } from './components/auth/admin/admin.component';
 import { adminGuard } from './guard/admin.guard';
 
 export const routes: Routes = [

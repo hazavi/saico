@@ -7,6 +7,7 @@ import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
 import { CurrencyService } from './service/currency.service';
 import { GenericService } from './service/generic.service';
 import { Category } from './models/category';
+import { Product } from './models/product';
 
 interface SearchSuggestion {
   id: string;
@@ -26,9 +27,11 @@ export class AppComponent{
   isScrolled = false;
   isShopOpen = false;
   isSearchOpen = false;
+  searchResults: Product[] = [];
   cartItemCount = 0; // Example value, should be updated dynamically
   searchQuery = '';
   isClothingOpen = false;
+  isLoading = false;
 
   isLoggedIn = false;
   isDropdownOpen = false;
@@ -48,7 +51,8 @@ export class AppComponent{
 
   constructor(
     private currencyService: CurrencyService,
-    private categoryService: GenericService<Category>
+    private categoryService: GenericService<Category>,
+    private productService: GenericService<Product>
   ) {}
 
   onCurrencyChange(event: Event) {
@@ -59,8 +63,9 @@ export class AppComponent{
   ngOnInit() {
     this.checkLoginStatus();
     this.loadCategories();
+
   }
-  
+
   checkLoginStatus() {
     const userData = localStorage.getItem('user'); // Get user from local storage
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -123,8 +128,39 @@ export class AppComponent{
       document.body.style.overflow = 'hidden'; // Prevent scrolling when search is open
     } else {
       document.body.style.overflow = '';
+      this.searchQuery = ''; // Clear search query
+      this.searchResults = []; // Clear search results
     }
   }
+
+  /** Handles search input changes */
+  onSearchInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchQuery = inputElement.value.trim();
+
+    if (this.searchQuery.length > 2) {
+      this.isLoading = true;
+      this.productService.search('products/search', this.searchQuery).subscribe(
+        (products: Product[]) => {
+          this.searchResults = products;
+          this.isLoading = false;
+        },
+        (error) => {
+          console.error('Error fetching products:', error);
+          this.isLoading = false;
+        }
+      );
+    } else {
+      this.searchResults = []; // Clear results if query is too short
+    }
+  }
+
+  /** Clears the search query and results */
+  clearSearch(): void {
+    this.searchQuery = '';
+    this.searchResults = [];
+  }
+
   // Handle dropdown close when clicking a category link
   closeDropdown(event: Event) {
     event.stopPropagation();
@@ -136,9 +172,4 @@ export class AppComponent{
     console.log('Cart toggled'); // You can add your cart logic here
   }
 
-  /** Handles search input changes */
-  onSearchInput(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    this.searchQuery = inputElement.value;
-  }
 }

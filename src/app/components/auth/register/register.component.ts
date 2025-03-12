@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { User } from '../../models/user';
-import { GenericService } from '../../service/generic.service';
+import { User } from '../../../models/user';
+import { GenericService } from '../../../service/generic.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { LoginModel } from '../../models/loginmodel';
+import { LoginModel } from '../../../models/loginmodel';
 
 @Component({
   selector: 'app-register',

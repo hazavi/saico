@@ -10,4 +10,7 @@ export class Product {
     isAvailable: boolean = true;
     stocks: number = 0;
     categoryIds: string[] = []; // Array of category IDs
+  
+    constructor() {}
+
   }

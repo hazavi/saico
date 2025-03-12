@@ -1,0 +1,92 @@
+<div class="admin-dashboard">
+    <header class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <button class="btn create-btn" routerLink="/create-product">
+        <span class="btn-icon">+</span> Create Product
+      </button>
+    </header>
+  
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search products by name..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+    </div>
+  
+    <!-- Product List Section -->
+    <section class="product-section">
+      <div class="section-header">
+        <h2>Product List</h2>
+      </div>
+      
+      <div class="table-container">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th class="sortable" (click)="onSort('images')">Image</th>
+              <th class="sortable" (click)="onSort('productName')">Name</th>
+              <th class="sortable" (click)="onSort('price')">Price</th>
+              <th class="sortable" (click)="onSort('stocks')">Stocks</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of getPaginatedProducts()">
+              <td class="image-cell">
+                <div class="product-image-container">
+                  <img
+                    *ngIf="product.images && product.images.length > 0"
+                    [src]="'data:image/jpeg;base64,' + product.images[0]"
+                    alt="{{ product.productName }}"
+                    class="product-image"
+                  />
+                  <span *ngIf="!product.images || product.images.length === 0" class="no-image">No Image</span>
+                </div>
+              </td>
+              <td>{{ product.productName }}</td>
+              <td class="price-cell">{{ getConvertedPrice(product.price, (selectedCurrency$ | async) || 'EUR') | currency:((selectedCurrency$ | async) || 'EUR'):'symbol':'1.0-0' }}</td>
+              <td class="stock-cell">{{ product.stocks }}</td>
+              <td class="actions-cell">
+                <div class="action-buttons">
+                  <button class="btn action-btn edit-btn" (click)="editProduct(product)">Edit</button>
+                  <button class="btn action-btn delete-btn" (click)="deleteProduct(product.productId)">Delete</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <!-- Pagination Controls -->
+      <div class="pagination-controls">
+        <button 
+          class="pagination-btn"
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)">
+          &laquo;
+        </button>
+        
+        <div class="page-numbers">
+          <button
+            *ngFor="let page of getPaginationArray(); let i = index"
+            class="pagination-btn"
+            [class.active]="currentPage === page"
+            (click)="onPageChange(page)"
+          >
+            {{ page }}
+          </button>
+        </div>
+        
+        <button 
+          class="pagination-btn"
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)">
+          &raquo;
+        </button>
+      </div>
+    </section>
+  </div>

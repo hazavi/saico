@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { LoginModel } from '../../models/loginmodel';
-import { User } from '../../models/user';
-import { GenericService } from '../../service/generic.service';
+import { LoginModel } from '../../../models/loginmodel';
+import { User } from '../../../models/user';
+import { GenericService } from '../../../service/generic.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
